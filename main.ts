@@ -1,12 +1,11 @@
-import { copyFile, mkdir } from "node:fs/promises";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
+import { copyFileSync, mkdirSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const programDirectory = dirname(fileURLToPath(import.meta.url));
-const outputDirectory = process.env.MAKEFUN_OUTPUT_DIR || "/output";
+const programDir = dirname(fileURLToPath(import.meta.url));
+const sourcePath = resolve(programDir, 'art.png');
+const outputDir = resolve(process.env.MAKEFUN_OUTPUT_DIR || '/output');
+const destinationPath = resolve(outputDir, 'entry.png');
 
-await mkdir(outputDirectory, { recursive: true });
-await copyFile(
-  join(programDirectory, "art.png"),
-  join(outputDirectory, "entry.png"),
-);
+mkdirSync(outputDir, { recursive: true });
+copyFileSync(sourcePath, destinationPath);
